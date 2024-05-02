@@ -1,38 +1,85 @@
 <%layout("/layouts/boilerplate")%>
-<body>
-    <div class="row mt-3">
-        <div class="col-8 offset-2">
-            <h3>Edit your Listing : </h3>
-            <form method="POST" action="/listings/<%=listing._id%>?_method=PUT">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title : </label>
-                    <input name="listing[title]" value="<%=listing.title%>" type="text" class="form-control" />
+<script>const listing = <%- JSON.stringify(listing) %>;</script>
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <h3>Edit your Listing : </h3>
+        <form 
+            method="POST" 
+            action="/listings/<%=listing._id%>?_method=PUT" 
+            novalidate class="needs-validation" 
+            enctype="multipart/form-data"
+        >
+            <div class="mb-3">
+                <label for="title" class="form-label">Title : </label>
+                <input name="listing[title]" value="<%=listing.title%>" type="text" class="form-control" required />
+                <div class="invalid-feedback">Enter Title</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description : </label>
+                <textarea name="listing[description]" class="form-control" required><%=listing.description%></textarea>
+                <div class="invalid-feedback">Enter Description</div>
+            </div>     
+            <div class="mb-3">
+                Original Listing Image<br/>
+                <img src="<%= originalImageUrl %>" />
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
+                <input name="listing[image]" type="file" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <select name="listing[category]" class="form-select" required>
+                    <option value="" disabled selected>Select category...</option>
+                    <option value="room">Room</option>
+                    <option value="city">City</option>
+                    <option value="mount">Mount</option>
+                    <option value="castle">Castle</option>
+                    <option value="pool">Pool</option>
+                    <option value="camp">Camp</option>
+                    <option value="farm">Farm</option>
+                    <option value="beach">Beach</option>
+                </select>
+                <div class="invalid-feedback">Select a category</div>
+            </div>                 
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price : </label>
+                    <input name="listing[price]" value="<%=listing.price%>" type="number" class="form-control" required/>
+                    <div class="invalid-feedback">Enter Price</div>
                 </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description : </label>
-                    <textarea name="listing[description]" class="form-control"><%=listing.description%></textarea>
+                <div class="mb-3 col-md-8">
+                    <label for="country" class="form-label">Country : </label>
+                    <input name="listing[country]" value="<%=listing.country%>" type="text" class="form-control" required/>
+                    <div class="invalid-feedback">Enter Country</div>
                 </div>
-                <div class="mb-3">
-                    <label for="image" class="form-label">Image Link : </label>
-                    <input name="listing[image]" value="<%=listing.image%>" type="text" class="form-control" />
-                </div>
-                <div class="row">
-                    <div class="mb-3 col-md-4">
-                        <label for="price" class="form-label">Price : </label>
-                        <input name="listing[price]" value="<%=listing.price%>" type="number" class="form-control" />
-                    </div>
-                    <div class="mb-3 col-md-8">
-                        <label for="country" class="form-label">Country : </label>
-                        <input name="listing[country]" value="<%=listing.country%>" type="text" class="form-control" />
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location : </label>
-                    <input name="listing[location]" value="<%=listing.location%>" type="text" class="form-control" />
-                </div>
-                <button class="btn btn-dark edit-btn mt-3">Edit</button>
-                <br/><br/>
-            </form>
-        </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location : </label>
+                <input name="listing[location]" value="<%=listing.location%>" type="text" class="form-control" required/>
+                <div class="invalid-feedback">Enter Location</div>
+            </div>
+            <!-- <div id="map" class= "mb-3" style="height: 300px;"></div> -->
+            <button class="btn btn-dark edit-btn mt-3">Edit</button>
+            <br/><br/>
+        </form>
     </div>
-</body>
+</div>
+<!-- <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" /> -->
+
+<!-- Script to initialize the map -->
+<script>
+    mapboxgl.accessToken = '<%= process.env.MAP_TOKEN %>';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [<%= listing.geometry.coordinates[0] %>, <%= listing.geometry.coordinates[1] %>], // Use the updated coordinates
+        zoom: 12
+    });
+
+    // Add a marker for the updated location
+    new mapboxgl.Marker()
+        .setLngLat([<%= listing.geometry.coordinates[0] %>, <%= listing.geometry.coordinates[1] %>]) // Use the updated coordinates
+        .addTo(map);
+</script>

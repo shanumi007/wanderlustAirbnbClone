@@ -47,9 +47,17 @@ body {
 }
 
 /*cards*/
-.card {
+.row-cols-lg-3,
+.row-cols-md-2,
+.row-cols-sm-1 {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+.listing-card {
     border: none !important;
     margin-bottom: 2rem;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .card-img-top {
     border-radius: 1rem !important;
@@ -92,4 +100,8 @@ body {
 .show-card {
     padding-left: 0;
     padding-right: 0;
+}
+#map {
+    height: 400px;
+    width: 100vh;
 }

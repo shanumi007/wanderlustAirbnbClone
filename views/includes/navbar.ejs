@@ -1,16 +1,269 @@
+<style>
+  .search-btn {
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 25px;
+  }
+  .search-btn:hover {
+    background-color: #fe424d;
+  }
+  .search-btn i {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+  .search-inp {
+    border-radius: 25px;
+  }
+  
+  #filters {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .filter {
+    text-align: center;
+    opacity: 0.7;
+    padding: auto;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+    border: 0.5px solid black;
+  }
+  .filter a {
+    text-decoration: none;
+    color: black;
+  }
+  .tax-info {
+    display: none;
+  }
+  .tax-toggle {
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.25rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  @media (min-width: 992px) {
+    .search-btn {
+      padding: 0rem 1rem;
+    }
+    .search-inp {
+      padding: 0.5rem 3rem;
+      font-size: 1rem;
+    }
+    .filter {
+      margin: 1rem 1rem 0rem 0rem;
+    }
+    .filter p {
+      font-size: 0.8rem;
+    }
+  .tax-toggle {
+    margin-left: 2rem;
+  }
+  }
+  
+  @media (min-width: 769px) and (max-width: 991px) {
+    .search-btn {
+      padding: 0rem 0.5rem;
+    }
+    .search-inp {
+      padding: 0.5rem 2rem;
+      font-size: 0.8rem;
+    }
+    .filter {
+      margin: 0.5rem;
+    }
+    .filter p {
+      font-size: 0.7rem;
+    }
+    .tax-toggle {
+      margin-top: 0.5rem;
+    }
+  }
+  @media (max-width: 768px) {
+    .search-btn {
+      padding: 0rem 0.5rem;
+    }
+    .search-inp {
+      padding: 0.5rem 2rem;
+      font-size: 0.8rem;
+    }
+    .filter {
+      margin: 0.5rem;
+    }
+    .filter p {
+      font-size: 0.7rem;
+    }
+    .tax-toggle {
+      margin-top: 0.5rem;
+    }
+  }
+</style>
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/listings">All Listings</a>
-        <a class="nav-link" href="/listings/new">Add new Listing</a>
+        <!-- <a class="nav-link" href="/">Home</a> -->
+        <a class="nav-link" href="/listings">Explore</a>
         <!-- <a class="nav-link disabled" aria-disabled="true">Disabled</a> -->
+      </div>
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex search-form" role="search">
+          <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations">
+          <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+        </form>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new">Wanderlust your home</a>
+        <% if(!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+          <a class="nav-link" href="/login"><b>Log In</b></a>
+        <% } %>
+        <% if(currUser) {%>
+        <a class="nav-link" href="/logout"><b>Log Out</b></a>
+        <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<div id="filters">
+  <div class="filter">
+    <a href="/listings">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=room">
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=city">
+      <div><i class="fa-solid fa-mountain-city"></i></div>
+      <p>Iconic Cities</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=mount">
+      <div><i class="fa-solid fa-mountain"></i></div>
+      <p>Mountains</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=castle">
+      <div><i class="fa-brands fa-fort-awesome"></i></div>
+      <p>Castles</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=pool">
+      <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>Amazing Pools</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=camp">
+      <div><i class="fa-solid fa-campground"></i></div>
+      <p>Camping</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=farm">
+      <div><i class="fa-solid fa-cow"></i></div>
+      <p>Farms</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/listings?category=beach">
+      <div><i class="fa-solid fa-umbrella-beach"></i></div>
+      <p>Beaches</p>
+    </a>
+  </div>
+  <div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
+    </div>
+  </div>
+</div>
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (info of taxInfo) {
+      if (info.style.display != "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+
+  // Function to update the URL with the selected category
+  function updateCategory(category) {
+    let url = new URL(window.location.href);
+    url.searchParams.set('category', category);
+    window.location.href = url.toString();
+  }
+
+  // Add click event listeners to all filter buttons
+  let filters = document.querySelectorAll('.filter');
+  filters.forEach(filter => {
+    filter.addEventListener('click', function () {
+      let category = this.querySelector('p').innerText.toLowerCase();
+      updateCategory(category);
+    });
+  });
+
+  // Function to update the URL with the search query for location or country
+  function updateSearchQuery(query) {
+    let url = new URL(window.location.href);
+    url.searchParams.set('location', query);
+    url.searchParams.delete('category'); // Remove the 'category' query parameter
+    window.location.href = '/listings?' + url.searchParams.toString();
+  }
+
+  // Add a submit event listener to the search form
+  let searchForm = document.querySelector('form[role="search"]');
+  searchForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    let searchInput = this.querySelector('input[type="search"]');
+    let query = searchInput.value.trim();
+    updateSearchQuery(query);
+  });
+
+  // let navbarToggler = document.querySelector('.navbar-toggler');
+  // let navbarNavAltMarkup = document.getElementById('navbarNavAltMarkup');
+  // let filterBelowNav = document.getElementById('filters');
+  // let filtersParent = filters.parentNode; // Get the current parent of the filters
+
+  // navbarToggler.addEventListener('click', function() {
+  //   if (navbarNavAltMarkup.classList.contains('show')) {
+  //     // Navbar is expanded, move filters below the navbarNavAltMarkup
+  //     filtersParent.appendChild(filterBelowNav); // Append filters to navbarNavAltMarkup
+  //   } else {
+  //     // Navbar is collapsed, move filters back to their original position below the navbar
+  //     document.querySelector('.navbar').appendChild(filterBelowNav); // Append filters back to the navbar
+  //   }
+  // });
+
+  // // Function to handle resizing of the window 
+  // window.addEventListener('resize', function() {
+  //   if (window.innerWidth > 768) {
+  //     // If screen size is increased beyond 768px, move filters back to their original position below the navbar
+  //     document.querySelector('.navbar').appendChild(filterBelowNav); // Append filters back to the navbar
+  //   }
+  // });
+</script>
