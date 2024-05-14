@@ -103,5 +103,29 @@ body {
 }
 #map {
     height: 400px;
-    width: 100vh;
+    width: 100%; /* Set the initial width to 100% */
+}
+
+@media (min-width: 768px) {
+    #map {
+        height: 400px; /* Keep the height the same for medium screens */
+    }
+}
+
+@media (min-width: 992px) {
+    #map {
+        height: 400px; /* Keep the height the same for large screens */
+    }
+}
+
+.btn-login, .btn-signup {
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 25px;
+}
+.btn-login:hover {
+    background-color: #fe424d;
+}
+.btn-signup:hover {
+    background-color: #fe424d;
 }
